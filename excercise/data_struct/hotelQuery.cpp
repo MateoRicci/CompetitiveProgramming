@@ -13,7 +13,7 @@ typedef pair<ll,ll> ii;
 struct Tree {
 	typedef ll T;
 	static constexpr T neut = LONG_LONG_MIN;
-	T f(T a, T b) { return max(a,b);} // (any associative fn)
+	T f(T a, T b) { return max(a, b); } // (any associative fn)
 	vector<T> s; ll n;
 	Tree(ll n = 0, T def = neut) : s(2*n, def), n(n) {}
 	void upd(ll pos, T val) {
@@ -45,26 +45,24 @@ int main(){
 
     vector<ll> res;
     fore(i,0,m){
-        ll aux;
         if(num.query(0,n)<tur[i]){
-            aux=0;
+            res.pb(0);
         }else{
-            ll l=0,r=n,mid;
-            while(l+1<r){
+            ll l=0,r=n-1,mid=0;
+            while(l<=r){
                 mid = (l+r)/2;
-                ll aux2 = num.query(l,mid);
+                ll aux2 = num.query(l,mid+1);
                 if(aux2>=tur[i]){
-                    r=mid;
-                    aux=mid;
+                    r=mid-1;
                 }
                 else{
-                    l=mid;
+                    l=mid+1;
                 }
             }
-            ll cant = num.query(mid-1,mid);
-            num.upd(mid-1,(cant-tur[i]));
+            ll cant = num.query(mid,mid+1);
+            num.upd(mid,(cant-tur[i]));
+            res.pb(mid+1);
         }
-        res.pb(aux);
     }
     fore(i,0,SZ(res)){
         cout << res[i] << " ";

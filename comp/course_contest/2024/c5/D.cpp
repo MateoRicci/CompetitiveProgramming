@@ -10,28 +10,50 @@ using namespace std;
 typedef long long ll;
 typedef pair<ll,ll> ii;
 
+const ll MOD = 998244353;
+
+ll mul(ll a, ll b){
+	return a*b%MOD;
+}
+
+
 int main(){
     FIN;
     ll t; cin >> t;
     while(t--){
-        ll res;
         string num;
         cin >> num;
         ll sum = 0;
+        ll rep = 0;
+        vector<ll> reps;
+        ll total_comb = 1;
+
         ll cant = ll(num.length());
-        for(auto i : num){
-            if(i=='1'){
+        fore(i, 0, cant - 1) {
+            if (num[i] == num[i + 1]) {
                 sum++;
+                rep++;
+            } else {
+                if (rep > 0) {
+                    reps.pb(rep + 1);
+                    total_comb = mul(total_comb,rep+1);
+                }
+                rep = 0;
             }
         }
-
-        cout << cant << " " << sum << "\n";
-        if(cant == sum || sum==0){
-            res =
+        if (rep > 0) {
+            reps.pb(rep + 1);
+            total_comb = mul(total_comb,rep+1);
         }
-    }
+
+        
     
-    return 0;
+        fore(i,1,sum+1){
+            total_comb = mul(total_comb,i);
+        }
+
+        cout << sum << " " << total_comb << "\n";
+    }
 
 }
 
