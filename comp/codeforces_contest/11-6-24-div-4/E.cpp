@@ -16,21 +16,19 @@ int main(){
     ll t; cin >> t;
 
     while(t--){
-        ll h, n; cin >> h >> n;
-        vector<ii> a(n);
-        fore(i,0,n) cin >> a[i].fst;
-        fore(i,0,n) cin >> a[i].snd;
-        set<ii> s;
-        for(int i = 0; i < n; i++){
-			s.insert({1, i});
-		}
-        ll res = 1;
-        while(h>0){
-            auto [turn, i] = *s.begin();
-            s.erase(s.begin());
-            res = turn;
-            h -= a[i].fst;  
-			s.insert({turn + a[i].snd, i});
+        ll x,y,z,k;
+        cin >> x >> y >> z >> k;
+
+        ll res = 0;
+
+        for(ll a = 1; a <= x; a++){
+            for(ll b = 1; b <= y; b++){
+                if(k % (a*b)) continue;
+                ll c = k / (a*b);
+                if(c > z) continue;
+                ll pos = (ll)((x-a+1)*(y-b+1)*(z-c+1));
+                res = max(res,pos);
+            }
         }
 
         cout << res << "\n";

@@ -14,25 +14,28 @@ typedef pair<ll,ll> ii;
 int main(){
     FIN;
     ll t; cin >> t;
-
     while(t--){
-        ll h, n; cin >> h >> n;
-        vector<ii> a(n);
-        fore(i,0,n) cin >> a[i].fst;
-        fore(i,0,n) cin >> a[i].snd;
-        set<ii> s;
-        for(int i = 0; i < n; i++){
-			s.insert({1, i});
-		}
-        ll res = 1;
-        while(h>0){
-            auto [turn, i] = *s.begin();
-            s.erase(s.begin());
-            res = turn;
-            h -= a[i].fst;  
-			s.insert({turn + a[i].snd, i});
+        ll n,k; cin >> n >> k;
+        vector<vector<bool>> used(n,vector<bool>(n, false));
+
+        ll res = 0;
+        if(k>0){
+            k -= n;
+            res++;
+        }
+        ll i = 1;
+        while(k>0){
+            n-=i;
+            k -= n;
+            res++;
+            if(k<1) break;
+            k -= n;
+            res++;
         }
 
         cout << res << "\n";
     }
+   
+
+
 }
