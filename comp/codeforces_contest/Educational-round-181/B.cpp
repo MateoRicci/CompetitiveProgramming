@@ -21,6 +21,23 @@ int main(){
     ll t = 1;
     cin >> t;
     while(t--){
-
+        ll a,b,k;
+        cin >> a >> b >> k;
+        if(k >= a && k >= b){
+            cout << "1\n";
+        } else if(gcd(a,b) != 1){
+            // tengo que ver que pueda usar todo lo que queda
+            ll h = gcd(a,b);
+            a /= h, b /= h;
+            if(a>b) swap(a,b);
+            while(gcd(a,b)!=1){
+                h = gcd(a,b);
+                a /= h, b /= h;
+            }
+            if(b>k) cout << "2\n";
+            else cout << "1\n";
+        } else{
+            cout << "2\n";
+        }
     }
 }

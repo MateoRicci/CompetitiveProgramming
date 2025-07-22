@@ -13,41 +13,23 @@
 #define FIN ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define SZ(s) ll(s.size())
 using namespace std;
-typedef short ll;
+typedef long long ll;
 typedef pair<ll,ll> pll;
 const ll MAXN = 5005;
 const ll MAXT = 3*MAXN;
-const ll INF = 32000;
+const ll INF = 1e12;
 ll n, m; 
 vector<ll> g[MAXN];
-ll mt;
 
 ll f(ll i, ll t,vector<vector<ll>> &dp){
     if(t>=3*n) return INF;
-    if(i==n-1) return 0; // llegue
+    if(i==n-1){
+        dp[i][t] = 0;
+        return 0; // llegue
+    } 
     if(dp[i][t]!=-1) return dp[i][t];
     ll k = (t % SZ(g[i]));
-    ll a = f(g[i][k],t+1,dp);
-    ll b = f(i,t+1,dp);
-    ll res = INF;
-    if(a < INF) res = min(res, (ll)(1 + a));
-    if(b < INF) res = min(res, (ll)(1 + b));
-    dp[i][t] = res;
-    return dp[i][t];
-}
-
-// como se que llego como minimo en mt
-ll f2(ll i, ll t, vector<vector<ll>> &dp){
-    if(t>mt) return INF;
-    if(i==n-1) return 0;
-    if(dp[i][t]!=-1) return dp[i][t];
-    ll k = (t % SZ(g[i]));
-    ll a = f2(g[i][k],t+1,dp);
-    ll b = f2(i,t+1,dp);
-    ll res = INF;
-    if(a < INF) res = min(res, (ll)a);
-    if(b < INF) res = min(res, (ll)(1 + b));
-    dp[i][t] = res;
+    dp[i][t] = min(0 + f(g[i][k],t+1,dp),1 + f(i,t+1,dp));
     return dp[i][t];
 }
 
@@ -64,25 +46,12 @@ int main(){
         }
         
         vector<vector<ll>> dp(n, vector<ll>(3*n,-1));
-        ll res = f(0,0,dp);
-        mt = res;
-        fore(i,0,n) fore(j,0,3*n) dp[i][j] = -1;
-        ll wait = f2(0,0,dp);
+        ll wait = f(0,0,dp);
+        ll res = INF;
+        fore(t,0,3*n){
+            if(dp[n-1][t] == 0) res = min(res,t);
+        }
         cout << res << " " << wait << "\n";
         fore(i,0,n)g[i].clear();
     }
 }
-
-/*
-1
-10 9
-6 7
-6 9
-5 3
-1 8
-10 7
-2 9
-3 6
-3 4
-8 6
-*/

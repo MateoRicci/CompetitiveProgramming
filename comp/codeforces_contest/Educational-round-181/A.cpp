@@ -21,6 +21,10 @@ int main(){
     ll t = 1;
     cin >> t;
     while(t--){
-
+        string s; cin >> s;
+        string res;
+        fore(i,0,SZ(s)) if(s[i]=='T') res.pb('T');
+        fore(i,0,SZ(s)) if(s[i]!='T') res.pb(s[i]);
+        cout << res << "\n";
     }
 }

@@ -16,11 +16,14 @@ using namespace std;
 typedef long long ll;
 typedef pair<ll,ll> pll;
 
+const ll MOD = 998244353;
+
 int main(){
     FIN;
     ll t = 1;
     cin >> t;
     while(t--){
-
+        ll n,m;
+        cin >> n >> m;
     }
 }
