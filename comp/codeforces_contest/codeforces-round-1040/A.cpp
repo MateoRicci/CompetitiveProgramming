@@ -16,26 +16,28 @@ using namespace std;
 typedef long long ll;
 typedef pair<ll,ll> pll;
 
-const int MOD = 998244353;
-
-// MODULAR OPERATIONS
-int add(int a, int b){a+=b;if(a>=MOD)a-=MOD;return a;}
-int sub(int a, int b){a-=b;if(a<0)a+=MOD;return a;}
-int mul(ll a, ll b){return a*b%MOD;}
-int fpow(int a, ll b){
-	if(b<0)return 0;
-	int r=1;
-	while(b){if(b&1)r=mul(r,a); b>>=1; a=mul(a,a);}
-	return r;
-}
-int inv(int a){return fpow(a,MOD-2);}
-
 int main(){
     FIN;
     ll t = 1;
     cin >> t;
     while(t--){
-        ll n,m;
-        cin >> n >> m;
+        ll n; cin >> n;
+        vector<vector<ll>> a(51);
+        ll res = 0;
+        fore(i,0,n){
+            ll aux; cin >> aux;
+            a[aux].pb(aux);
+            res += aux;
+        }
+        // siempre me va a convenir sumar salvo quizas los 0 y 1
+        if(SZ(a[0]) > 0){
+            // veo cuantos ceros y unos puedo meter
+            ll cant0 = SZ(a[0]);
+            ll cunos = min(cant0,SZ(a[1]));
+            res += cunos;
+            cant0 -= cunos;
+            res += cant0;
+        }
+        show(res);
     }
 }

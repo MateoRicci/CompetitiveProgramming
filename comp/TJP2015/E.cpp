@@ -16,26 +16,33 @@ using namespace std;
 typedef long long ll;
 typedef pair<ll,ll> pll;
 
-const int MOD = 998244353;
-
-// MODULAR OPERATIONS
-int add(int a, int b){a+=b;if(a>=MOD)a-=MOD;return a;}
-int sub(int a, int b){a-=b;if(a<0)a+=MOD;return a;}
-int mul(ll a, ll b){return a*b%MOD;}
-int fpow(int a, ll b){
-	if(b<0)return 0;
-	int r=1;
-	while(b){if(b&1)r=mul(r,a); b>>=1; a=mul(a,a);}
-	return r;
-}
-int inv(int a){return fpow(a,MOD-2);}
-
 int main(){
     FIN;
-    ll t = 1;
-    cin >> t;
-    while(t--){
-        ll n,m;
-        cin >> n >> m;
+    ll n,m; cin >> n >> m;
+    vector<ll> a(n,0);
+    map<ll,ll> comp;
+    set<ll> used;
+    ll cont = 0;
+
+    vector<ll> sis(n),tms(n);
+    fore(i,0,n) cin >> sis[i];
+    fore(i,0,n) cin >> tms[i];
+
+    fore(i,0,n){
+        ll s = sis[i], t = tms[i];
+        if(!used.count(s)){
+            // si no use esta mesada
+            comp[s] = cont;
+            a[cont] += t;
+            cont++;
+            used.insert(s);
+        } else{
+            a[comp[s]] += t;
+        }
     }
+    ll res = 0;
+    for(auto val : a){
+        res = max(res,val);
+    }
+    cout << res << "\n";
 }

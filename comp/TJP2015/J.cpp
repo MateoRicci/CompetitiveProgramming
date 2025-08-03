@@ -15,27 +15,37 @@
 using namespace std;
 typedef long long ll;
 typedef pair<ll,ll> pll;
+const ll MOD = 1e9 + 7;
 
-const int MOD = 998244353;
-
-// MODULAR OPERATIONS
-int add(int a, int b){a+=b;if(a>=MOD)a-=MOD;return a;}
-int sub(int a, int b){a-=b;if(a<0)a+=MOD;return a;}
-int mul(ll a, ll b){return a*b%MOD;}
-int fpow(int a, ll b){
+ll mul(ll a, ll b){return a*b%MOD;}
+ll fpow(ll a, ll b){
 	if(b<0)return 0;
-	int r=1;
+	ll r=1;
 	while(b){if(b&1)r=mul(r,a); b>>=1; a=mul(a,a);}
 	return r;
 }
-int inv(int a){return fpow(a,MOD-2);}
 
 int main(){
     FIN;
-    ll t = 1;
-    cin >> t;
-    while(t--){
-        ll n,m;
-        cin >> n >> m;
+    ll n,k; cin >> n >> k;
+    vector<pll> a(n);
+    fore(i,0,n) cin >> a[i].fst;
+    fore(i,0,n) cin >> a[i].snd;
+    sort(ALL(a));
+    reverse(ALL(a));
+
+    ll qmod = fpow(1000LL,k);
+    
+    ll pmod = 1;
+    fore(i,0,k) pmod = mul(pmod,a[i].snd);
+    fore(i,k,n){
+        if(a[i].fst == a[k-1].fst){
+            pmod = mul(pmod,a[i].snd);
+            qmod = mul(qmod,1000L);
+        }
     }
+
+    ll qinv = fpow(qmod,MOD-2LL);
+    ll x = mul(pmod,qinv);
+    cout << x << "\n";
 }

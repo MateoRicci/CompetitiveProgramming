@@ -14,32 +14,25 @@
 #define SZ(s) ll(s.size())
 using namespace std;
 typedef long long ll;
-typedef pair<ll,ll> ii;
-const ll MAXN = 3005;
-ll n;
-double dp[MAXN][MAXN];
-double a[MAXN];
-
-double f(ll pos, ll caras){
-	if(pos >= n){
-		if(caras > n/2) return 1;
-		return 0;
-	}
-	// DGB(dp[pos][caras]);
-	if(dp[pos][caras] != -1) return dp[pos][caras];
-	// DGB(pos);DGB(caras);DGB(a[pos]);
-	dp[pos][caras] = a[pos] * f(pos+1, caras+1) + (double(1)-a[pos]) * f(pos+1,caras);
-	return dp[pos][caras];
-}
+typedef pair<ll,ll> pll;
 
 int main(){
     FIN;
-    fore(i,0,MAXN){
-    	fore(j,0,MAXN){
-    		dp[i][j] = double(-1);
-    	}
+    ll n; cin >> n;
+    vector<ll> a(n-1);
+    fore(i,0,n-1) cin >> a[i];
+    sort(ALL(a));
+    bool flag = false;
+    ll res;
+    fore(i,0,n-2){
+        if(a[i] + 1 != a[i+1]){
+            res = a[i] + 1;
+            flag = true;
+        }
     }
-	cin >> n;
-	fore(i,0,n) cin >> a[i];
-	cout << setprecision(10) << fixed << f(0,0) << "\n";
+    if(!flag){
+        if(a[0] == 1) res = a[n-2] + 1;
+        else res = a[0] - 1;
+    }
+    cout << res << "\n";
 }

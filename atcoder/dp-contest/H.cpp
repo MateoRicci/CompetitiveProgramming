@@ -15,12 +15,26 @@
 using namespace std;
 typedef long long ll;
 typedef pair<ll,ll> ii;
+const ll MAXN = 1005;
+const ll MOD = 1000000007;
+ll dp[MAXN][MAXN];
+char a[MAXN][MAXN];
+
+ll h,w;
+
+ll f(ll i, ll j){
+	if(i >= h || j >= w) return 0;
+	if(i == h-1 && j == w-1) return 1;
+	if(dp[i][j] != -1) return dp[i][j];
+	if(a[i][j] == '#') return 0;
+	dp[i][j] = (f(i+1,j) + f(i,j+1)) % MOD;
+	return dp[i][j] % MOD;
+}
 
 int main(){
     FIN;
-    ll t = 1;
-    cin >> t;
-    while(t--){
-
-    }
+	memset(dp,-1,sizeof(dp));
+	cin >> h >> w;
+	fore(i,0,h) fore(j,0,w) cin >> a[i][j];
+	cout << f(0,0) << "\n";
 }

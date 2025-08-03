@@ -13,22 +13,19 @@
 #define FIN ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define SZ(s) ll(s.size())
 using namespace std;
-typedef short ll;
+typedef int ll;
 typedef pair<ll,ll> pll;
-const ll MAXN = 5005;
-const ll MAXT = 3*MAXN;
-const ll INF = 32000;
+const ll INF = 1e8;
 ll n, m; 
-vector<ll> g[MAXN];
 ll mt;
 
-ll f(ll i, ll t,vector<vector<ll>> &dp){
-    if(t>=3*n) return INF;
-    if(i==n-1) return 0; // llegue
+ll f(ll i, ll t,vector<vector<ll>> &dp, vector<vector<ll>> &g){
+    if(t>=2*n) return INF;
+    if(i>=n-1) return 0; // llegue
     if(dp[i][t]!=-1) return dp[i][t];
     ll k = (t % SZ(g[i]));
-    ll a = f(g[i][k],t+1,dp);
-    ll b = f(i,t+1,dp);
+    ll a = f(g[i][k],t+1,dp,g);
+    ll b = f(i,t+1,dp,g);
     ll res = INF;
     if(a < INF) res = min(res, (ll)(1 + a));
     if(b < INF) res = min(res, (ll)(1 + b));
@@ -37,13 +34,13 @@ ll f(ll i, ll t,vector<vector<ll>> &dp){
 }
 
 // como se que llego como minimo en mt
-ll f2(ll i, ll t, vector<vector<ll>> &dp){
+ll f2(ll i, ll t, vector<vector<ll>> &dp, vector<vector<ll>> &g){
     if(t>mt) return INF;
-    if(i==n-1) return 0;
+    if(i>=n-1) return 0;
     if(dp[i][t]!=-1) return dp[i][t];
     ll k = (t % SZ(g[i]));
-    ll a = f2(g[i][k],t+1,dp);
-    ll b = f2(i,t+1,dp);
+    ll a = f2(g[i][k],t+1,dp,g);
+    ll b = f2(i,t+1,dp,g);
     ll res = INF;
     if(a < INF) res = min(res, (ll)a);
     if(b < INF) res = min(res, (ll)(1 + b));
@@ -57,32 +54,17 @@ int main(){
     cin >> t;
     while(t--){
         cin >> n >> m;
+        vector<vector<ll>> g(n+5);
         fore(i,0,m){
             ll a,b; cin >> a >> b, a--, b--;
             g[a].pb(b);
             g[b].pb(a);
         }
-        
-        vector<vector<ll>> dp(n, vector<ll>(3*n,-1));
-        ll res = f(0,0,dp);
+        vector<vector<ll>> dp(n, vector<ll>(2*n + 5,-1));
+        ll res = f(0,0,dp,g);
         mt = res;
-        fore(i,0,n) fore(j,0,3*n) dp[i][j] = -1;
-        ll wait = f2(0,0,dp);
+        fore(i,0,n) fore(j,0,2*n) dp[i][j] = -1;
+        ll wait = f2(0,0,dp,g);
         cout << res << " " << wait << "\n";
-        fore(i,0,n)g[i].clear();
     }
 }
-
-/*
-1
-10 9
-6 7
-6 9
-5 3
-1 8
-10 7
-2 9
-3 6
-3 4
-8 6
-*/

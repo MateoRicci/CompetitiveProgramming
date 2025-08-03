@@ -15,12 +15,35 @@
 using namespace std;
 typedef long long ll;
 typedef pair<ll,ll> ii;
+const ll MAXN = 100005;
+
+vector<ll> g[MAXN];
+ll dp[MAXN];
+
+ll n,m;
+
+ll f(ll v){
+	if(v >= n) return 0;
+	if(dp[v] != -1) return dp[v];
+
+	dp[v] = 0;
+	for(auto u : g[v]){
+		dp[v] = max(dp[v], 1 + f(u));
+	}
+	return dp[v];
+}
 
 int main(){
     FIN;
-    ll t = 1;
-    cin >> t;
-    while(t--){
-
-    }
+	memset(dp,-1,sizeof(dp));
+	cin >> n >> m;
+	fore(i,0,m){
+		ll a,b; cin >> a >> b, a--, b--;
+		g[a].pb(b);
+	}
+	ll res = 0;
+	fore(i,0,n){
+		res = max(res,f(i));
+	}
+	cout << res << "\n";
 }

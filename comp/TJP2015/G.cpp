@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+#define fst first
+#define snd second
+#define fore(i,a,b) for(ll i=a,ThxDem=b;i<ThxDem;++i)
+#define dfore(a,b,c) for(int a=b; a>=c; --a)
+#define DGB(a) cout<<#a<<" = "<<a<<"\n"
+#define RAYA cout<<"=============="<<"\n"
+#define show(a) cout<<a<<"\n"
+#define showAll(a) for(auto i:a) cout<<i<<" ";cout<<"\n"
+#define input(a) for(auto& i:a) cin>>i
+#define pb push_back
+#define ALL(s) s.begin(),s.end()
+#define FIN ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+#define SZ(s) ll(s.size())
+using namespace std;
+typedef long long ll;
+typedef pair<ll,ll> pll;
+
+int main(){
+    FIN;
+    ll n; cin >> n;
+    map<ll,ll> pis; pis[1] = 3; pis[2] = 1; pis[3] = -1;
+    map<string,ll> pelicula;
+    vector<ll> puntajes(n),apariciones(n);
+    ll cont = 0;
+    set<string> used;
+    fore(i,0,n){
+        string s; ll p; cin >> s >> p;
+        if(!used.count(s)){
+            used.insert(s);
+            pelicula[s] = cont;
+            cont++;
+        }
+        apariciones[pelicula[s]]++;
+        puntajes[pelicula[s]]+=pis[p];
+    }
+    ll nn = SZ(used); // cantidad de peliculas distintas
+    ll minp = 1e9;
+    fore(i,0,nn){
+        minp = min(minp, puntajes[i]);
+    }
+    // ahora que tengo el min busco la que menos apariciones tenga con ese minimo
+    ll aps = 1e9;
+    fore(i,0,nn){
+        if(puntajes[i] == minp){
+            aps = min(aps,apariciones[i]);
+        }
+    }
+    // busco la respuesta
+    string res;
+    for (const auto& s : used) {
+        if (puntajes[pelicula[s]] == minp && apariciones[pelicula[s]] == aps) {
+            res = s;
+            break;
+        }
+    }
+    cout << res << "\n";
+}
